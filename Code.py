@@ -11,9 +11,9 @@ import sklearn
 import numpy as np
 import pandas as pd
 
-train=pd.read_csv("/content/train.csv")
+train=pd.read_csv("/content/sample_data/train.csv")
 
-test.head()
+train.head()
 
 train.head(20)
 
@@ -54,13 +54,13 @@ train["clean_tweet"] = train_tweet
 train.head(10)
 
 # clean the test data and append the cleaned tweets to the test data
-test_tweet = clean_tweets(test["tweet"])
-test_tweet = pd.DataFrame(test_tweet)
+train_tweet = clean_tweets(train["tweet"])
+train_tweet = pd.DataFrame(train_tweet)
 # append cleaned tweets to the training data
-test["clean_tweet"] = test_tweet
+train["clean_tweet"] = train_tweet
 
 # compare the cleaned and uncleaned tweets
-test.tail()
+train.tail()
 
 from sklearn.model_selection import train_test_split
 
@@ -97,3 +97,25 @@ y_pred_svm = svm.predict(x_test_vec)
 
 from sklearn.metrics import accuracy_score
 print("Accuracy score for SVC is: ", accuracy_score(y_test, y_pred_svm) * 100, '%')
+
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=5)
+
+knn.fit(x_train_vec, y_train)
+
+print("Test set score: {:.2f}".format(knn.score(x_test_vec, y_test)* 100, '%'))
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import classification_report
+from sklearn.metrics import accuracy_score
+
+model = LogisticRegression()
+model.fit(x_train_vec, y_train)
+
+predictions = model.predict(x_test_vec)
+logisticaccuracy = accuracy_score( y_test,predictions)*100
+logisticaccuracy
+
+
